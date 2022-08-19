@@ -1,26 +1,36 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png" />
-  <HelloWorld msg="Welcome to Your Vue.js App" />
+  <ProductView />
 </template>
 
 <script>
-import HelloWorld from "./components/HelloWorld.vue";
+import ProductView from "./pages/ProductView.vue";
 
 export default {
-  name: "App",
-  components: {
-    HelloWorld,
-  },
+    name: "App",
+    components: {
+        ProductView,
+    },
 };
 </script>
 
 <style lang="scss">
+@font-face {
+ font-family: "Source Sans Pro";
+ src: local("Source Sans Pro"), url("fonts/SourceSansPro-Regular.ttf") format("truetype");
+}
+
+body{
+    margin:0;
+    background: #E5E5E5;
+}
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'Source Sans Pro';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+  
+  width:100vw;
+
 }
 </style>
