@@ -2,17 +2,17 @@
     <div class="card">
         <form>
             <div class="text">Наименование товара</div>
-            <input @change="formValidation()" v-model="name" type="text" placeholder="Введите наименование товара"
+            <input @input="formValidation(1)" v-model="name" type="text" :placeholder="namePlaceholder"
                 :class="nameClasses" style="height: 36px">
             <div class="text">Описание товара</div>
-            <textarea v-model="desc" type="text" placeholder="Введите описание товара" :class="descClasses"
+            <textarea v-model="desc" type="text" :placeholder="descPlaceholder" :class="descClasses"
                 style="height: 108px;padding-top:10px"></textarea>
             <div class="text">Ссылка на изображение товара</div>
-            <input @change="formValidation()" v-model="link" type="text" placeholder="Введите ссылку" :class="linkClasses"
-                style="height: 36px;">
+            <input @change="formValidation(3)" v-model="link" type="text" :placeholder="linkPlaceholder"
+                :class="linkClasses" style="height: 36px;">
             <div class="text">Цена товара</div>
-            <input @change="formValidation()" v-model="price" inputmode="numeric" type="text"
-                placeholder="Введите цену" :class="priceClasses" style="height: 36px;">
+            <input @input="formValidation(4)" v-model="price" inputmode="numeric" type="text"
+                :placeholder="pricePlaceholder" :class="priceClasses" style="height: 36px;">
             <button ref="btn" :class="btnClasses" :disabled="isDisabled" type="button" @click="buttonHandler">Добавить
                 товар</button>
         </form>
@@ -33,28 +33,72 @@ export default {
             descPlaceholder: 'Введите описание товара',
             linkPlaceholder: 'Введите ссылку',
             pricePlaceholder: 'Введите цену',
-            nameClasses:"form-input",
-            descClasses:"form-input",
-            linkClasses:"form-input",
-            priceClasses:"form-input"
+            nameClasses: "form-input",
+            descClasses: "form-input",
+            linkClasses: "form-input",
+            priceClasses: "form-input"
         }
     },
     methods: {
         buttonHandler() {
-            alert('click')
+            this.$emit('objectCreated', { name: this.name, desc: this.desc, link: this.link, price: this.price });
+            this.name = ''
+            this.desc = ''
+            this.link = ''
+            this.price = ''
         },
-        formValidation() {
+        isValidHttpUrl(string) {
+            let url;
+            try {
+                url = new URL(string);
+            } catch (_) {
+                return false;
+            }
+            return url.protocol === "http:" || url.protocol === "https:";
+        },
+        formValidation(mode) {
             this.isDisabled = false
-            if(!this.name){
+            if (!this.name) {
                 this.isDisabled = true
+                if (mode === 1) {
+                    this.namePlaceholder = "Это обязательное поле"
+                    this.nameClasses = "form-input form-input-invalid"
+                }
+            } else {
+                this.nameClasses = "form-input"
             }
-            if(!this.link){
+            if (!this.link) {
                 this.isDisabled = true
+                if (mode === 3) {
+                    if (this.linkPlaceholder != "Неподходящая ссылка") {
+                        this.linkPlaceholder = "Это обязательное поле"
+                    }
+                    this.linkClasses = "form-input form-input-invalid"
+                }
+            } else if (!this.isValidHttpUrl(this.link)) {
+                if (mode === 3) {
+                    this.linkPlaceholder = "Неподходящая ссылка"
+                    this.linkClasses = "form-input form-input-invalid"
+                }
+            } else {
+                this.linkClasses = "form-input"
             }
-            if(!this.price){
+            if (!this.price) {
                 this.isDisabled = true
-            }else if(/[a-zA-Z]/.test(this.price)){
+                if (mode === 4) {
+                    if (this.pricePlaceholder != "Цена это число") {
+                        this.pricePlaceholder = "Это обязательное поле"
+                    }
+                    this.priceClasses = "form-input form-input-invalid"
+                }
+            } else if (/[a-zA-Z]/.test(this.price)) {
                 this.isDisabled = true
+                if (mode === 4) {
+                    this.pricePlaceholder = "Цена это число"
+                    this.priceClasses = "form-input form-input-invalid"
+                }
+            } else {
+                this.priceClasses = "form-input"
             }
         }
     },
@@ -90,6 +134,7 @@ export default {
         border-radius: 4px;
         margin-bottom: 16px;
         resize: none;
+
         &::placeholder {
             font-family: 'Source Sans Pro';
             font-style: normal;
@@ -99,15 +144,19 @@ export default {
             text-align: left;
             color: #B4B4B4;
         }
+
         &:focus {
             outline: 1px solid black;
         }
     }
 
     .form-input-invalid {
+        outline: 1px solid red !important;
+
         &::placeholder {
             color: red;
         }
+
         &:focus {
             outline: 1px solid red !important;
         }
