@@ -10,7 +10,10 @@
             </select>
         </div>
         <div class="main">
-            <ProductCreateForm></ProductCreateForm>
+            <ProductCreateForm style="flex-grow:1" @object-created="formHandler"></ProductCreateForm>
+            <div class="products-section">
+
+            </div>
         </div>
     </div>
 </template>
@@ -20,13 +23,17 @@ import ProductCreateForm from "@/components/ProductCreateForm.vue"
 
 export default {
     name: "ProductView",
-    components: { ProductCreateForm }
+    components: { ProductCreateForm },
+    methods:{
+        formHandler(product){
+            console.log(product)
+        }
+    }
 };
 </script>
 <style scoped lang="scss">
 .wrapper {
     padding: 32px;
-
     .header {
         display: flex;
         justify-content: space-between;
@@ -47,6 +54,12 @@ export default {
         }
     }
 
-    .main {}
+    .main {
+        display: flex;
+        .products-section{
+            flex-grow: 18;
+            display: flex;
+        }
+    }
 }
 </style>
