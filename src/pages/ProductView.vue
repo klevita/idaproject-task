@@ -12,7 +12,14 @@
         <div class="main">
             <ProductCreateForm style="flex-grow:1" @object-created="formHandler"></ProductCreateForm>
             <div class="products-section">
-
+                <ProductCard 
+                    v-for="product in $store.state.products" 
+                    :name="product.name"
+                    :desc="product.desc"
+                    :link="product.link"
+                    :price="product.price"
+                    :key="product.id"
+                />
             </div>
         </div>
     </div>
@@ -20,13 +27,16 @@
 
 <script>
 import ProductCreateForm from "@/components/ProductCreateForm.vue"
+import ProductCard from "@/components/ProductCard.vue";
 
 export default {
     name: "ProductView",
-    components: { ProductCreateForm },
+    components: { ProductCreateForm, ProductCard },
+    data(){return{
+    }},
     methods:{
         formHandler(product){
-            console.log(product)
+            this.$store.commit("addProduct", product)
         }
     }
 };
