@@ -1,4 +1,4 @@
-# idaproject
+# idaproject Node v15.0.1
 
 ## Project setup
 ```
@@ -23,4 +23,4 @@ npm run lint
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
 
-Node v15.0.1
+
