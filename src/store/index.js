@@ -20,7 +20,7 @@ export default createStore({
         },
         removeProduct(state, id) {
             state.products = state.products.filter((prod) => {
-                return prod.id == id
+                return prod.id != id
             })
         }
     },

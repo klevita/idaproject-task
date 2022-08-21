@@ -9,7 +9,7 @@
             <textarea v-model="desc" type="text" placeholder='Введите описание товара' :class="descClasses"
                 style="height: 108px;padding-top:10px"></textarea>
             <div class="text">Ссылка на изображение товара</div>
-            <input @change="formValidation(3)" v-model="link" type="text" placeholder='Введите ссылку'
+            <input @input="formValidation(3)" v-model="link" type="text" placeholder='Введите ссылку'
                 :class="linkClasses" style="height: 36px;">
             <div class="input-errors">{{ linkErrors.join(", ") }}</div>
             <div class="text">Цена товара</div>
@@ -70,6 +70,10 @@ export default {
                     this.nameErrors.push("Это обязательное поле")
                     this.nameClasses = "form-input form-input-invalid"
                 }
+            } else {
+                if (!this.name) {
+                    this.isDisabled = true
+                }
             }
 
             //link rules
@@ -78,13 +82,23 @@ export default {
                 this.linkClasses = "form-input"
                 if (!this.link) {
                     this.isDisabled = true
+
                     this.linkErrors.push("Это обязательное поле")
                     this.linkClasses = "form-input form-input-invalid"
+
                 }
                 if (!this.isValidHttpUrl(this.link)) {
                     this.isDisabled = true
-                    this.linkErrors.push("Неподъодящая ссылка")
+
+                    this.linkErrors.push("Неподходящая ссылка")
                     this.linkClasses = "form-input form-input-invalid"
+                }
+            } else {
+                if (!this.link) {
+                    this.isDisabled = true
+                }
+                if (!this.isValidHttpUrl(this.link)) {
+                    this.isDisabled = true
                 }
             }
 
@@ -106,7 +120,17 @@ export default {
                     this.isDisabled = true
                     this.priceErrors.push("Слишком высокая цена")
                     this.priceClasses = "form-input form-input-invalid"
-                } 
+                }
+            }else{
+                if (!this.price) {
+                    this.isDisabled = true
+                }
+                if (/[a-zA-Z]/.test(this.price)) {
+                    this.isDisabled = true
+                }
+                if (this.price.length > 12) {
+                    this.isDisabled = true
+                }
             }
         }
     },
@@ -151,6 +175,10 @@ export default {
         border-radius: 4px;
         margin-bottom: 2px;
         resize: none;
+        font-family: 'Source Sans Pro';
+        font-size: 12px;
+        line-height: 15px;
+        color: $black-text;
 
         &::placeholder {
             font-family: 'Source Sans Pro';
@@ -213,6 +241,7 @@ export default {
     box-shadow: 0px 20px 30px rgba(0, 0, 0, 0.04),
     0px 6px 10px rgba(0, 0, 0, 0.02);
     border-radius: 4px;
-    width:332px - 48px;
+    width:332px;
+    height: fit-content;
 }
 </style>
