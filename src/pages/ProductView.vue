@@ -2,7 +2,7 @@
     <div class="wrapper">
         <div class="header">
             <div class="header-text">Добавление товара</div>
-            <CustomSelect style="margin-right:84px " @optionChange="sort"
+            <CustomSelect style="margin-right:68px " @optionChange="sort"
                 :options="['По умолчанию', 'По цене min', 'По цене max', 'По наименованию']" />
         </div>
         <div class="main">
@@ -25,6 +25,7 @@
 import ProductCreateForm from "@/components/ProductCreateForm.vue"
 import ProductCard from "@/components/ProductCard.vue";
 import CustomSelect from "@/components/CustomSelect.vue";
+import utils from "@/utils/Utils"
 
 export default {
     name: "ProductView",
@@ -56,6 +57,7 @@ export default {
             this.$store.commit("addProduct", product)
             this.productsArr = this.$store.state.products
             this.sort()
+            utils.setPopUp("Продукт успешно добавлен")
         },
         deleteProduct(id) {
             this.$store.commit("removeProduct", id)
