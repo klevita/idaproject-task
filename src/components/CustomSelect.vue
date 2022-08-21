@@ -23,7 +23,7 @@ export default {
     components: {},
     data() {
         return {
-            model:''
+            model: ''
         }
     },
     props: {
@@ -32,13 +32,20 @@ export default {
             required: true
         }
     },
-    mounted(){
+    mounted() {
         this.model = this.options[0];
+        let el = document.getElementsByClassName("drop-down")[0];
+        window.addEventListener("mouseup", () => {
+            if (el.style.height) {
+                document.getElementById("rectT").style.transform = "rotate(-90deg)";
+                el.style.height = ""
+            }
+        });
     },
     methods: {
-        handle(option){
+        handle(option) {
             this.model = option
-            this.$emit('optionChange',option)
+            this.$emit('optionChange', option)
         },
         moveArrow() {
             let el = document.getElementsByClassName("drop-down")[0];
@@ -93,9 +100,11 @@ export default {
     font-size: 13px;
     color: #969696;
     margin-top: -4px;
+
     .option {
         height: 22px;
         background-color: $card-back;
+
         &:hover {
             cursor: pointer;
             background: #f1f1f1;
