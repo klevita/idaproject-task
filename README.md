@@ -1,5 +1,7 @@
 # idaproject Node v15.0.1
-
+```
+Тестовое задание для команды Idaproject. Основной функционал из ТЗ + немного анимаций
+```
 ## Project setup
 ```
 npm install
